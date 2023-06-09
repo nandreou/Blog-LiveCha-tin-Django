@@ -1,1 +1,1 @@
-# Blog-LiveCha-tin-Django
+# Blog-LiveChat-in-Django
