@@ -1,0 +1,23 @@
+{%extends 'home.html' %}
+
+{%block cont%}
+<style>
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+ 
+    }
+</style>
+
+<h1>Are you sure you want to delete message?</h1>        
+
+<div class = "center">
+
+<form action = "" method="POST"> {%csrf_token%}
+
+    <input type = "submit" value = "Delete"> <a href="{% url 'blog:room-env' room.name %}">Back</a>
+
+</form>
+</div>
+{%endblock%}

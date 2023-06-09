@@ -1,0 +1,16 @@
+{% extends 'home.html'%}
+
+{%block cont%}
+
+<form action = "" method = "POST"> 
+    {% csrf_token %}
+{{form.as_p}}
+
+<input type = "submit" value = "Login">
+
+</form>
+
+<h3>Haven't signed up yet?</h3>
+<a href = "{% url 'blog:SignUp' %}">SignUp</a>
+
+{% endblock %}

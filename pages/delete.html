@@ -1,0 +1,12 @@
+{%extends 'home.html' %}
+
+{%block cont%}
+<h1>Are you sure you want to delete room: {{rooms.name}} ?</h1>        
+
+<form action = "" method="POST"> {%csrf_token%}
+
+    <input type = "submit" value = "Delete"> <a href="{% url 'blog:room-env' rooms.name %}">Back</a>
+
+</form>
+
+{%endblock%}

@@ -1,0 +1,28 @@
+{%extends 'home.html'%}
+
+{%block cont%}
+
+<h1>Hello from room: {{rooms.name}} </h1>
+
+<a href="{% url 'blog:message-create' rooms.name%}"> Leave a message</a>
+
+<h2>Messages:</h2>
+
+{% for message in messages %}
+<p>
+
+{% if request.user == message.user %}
+@{{message.user}} - {{message.msg}} <a href = "{% url 'blog:EditMessage' rooms.name message.id %}">Edit</a>  <a href = "{% url 'blog:DeleteMessage' message.room.name message.id %}">Delete</a>
+{% else %}
+@{{message.user}} - {{message.msg}}
+{% endif %}
+</p>
+
+{%endfor%}
+
+<br><br><br><br>
+<hr>
+{% if request.user.username == 'nick' %}
+To delete room {{rooms.name}} press this link: <a href = "{% url 'blog:delete' rooms.name %}"> Delete </a>
+{% endif %}
+{%endblock%}

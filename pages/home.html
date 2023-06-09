@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #804d13;
+        }
+        .container {
+            text-align: left;
+            padding: 10px;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .navigation {
+            background-color: #f2f2f2;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #967a20;
+        }
+        .navigation a {
+            margin-right: 20px;
+            text-decoration: none;
+            color: #333;
+        }
+        .navigation a:hover {
+            color: #000;
+            font-weight: bold;
+        }
+        .room-list {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .room-list-item {
+            margin-bottom: 10px;
+        }
+        .room-list-item a {
+            color: #333;
+            text-decoration: none;
+        }
+        .room-list-item a:hover {
+            color: #000;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome, {{ request.user.username }}</h1>
+    <div class="container">
+        <div class="navigation">
+            <a href="{% url 'blog:home' %}">Home</a>
+            <a href="{% url 'blog:create' %}">Create a Room</a>
+            <br>
+            {% if not request.user.is_authenticated %}
+                <a href="{% url 'blog:UserLogin' %}">Login</a>
+            {% else %}
+                <a href="{% url 'blog:ChangePassword' %}">Change Password</a>
+                <a href="{% url 'blog:UserLogout' %}">Logout</a>
+            {% endif %}
+        </div>
+        <hr>
+        <div class="room-list">
+            {% block cont %}
+                {% for room in rooms %}
+                    <div class="room-list-item">
+                        User's Room: {{ room.user }} - <a href="{% url 'blog:room-env' room.name %}">{{ room.name }}</a>
+                    </div>
+                    <hr>
+                {% endfor %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>
+

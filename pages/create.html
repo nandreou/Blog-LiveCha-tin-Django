@@ -1,0 +1,16 @@
+{%extends 'home.html'%}
+
+{%block cont%}
+
+<form method="POST" action=".">
+    {%csrf_token %}
+
+    {{ form.as_p }}
+
+    <br>
+    <input type="submit" value="Create Room">
+</form>
+
+
+
+{%endblock%}
