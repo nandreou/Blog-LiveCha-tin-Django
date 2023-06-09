@@ -33,7 +33,7 @@ class CreateRoom(LoginRequiredMixin ,View):
 class RoomField(View):
     
     def get(self, request, namekey=None, *args, **kwargs):
-        return render(request, "room.html", {'rooms': Room.objects.get(name = namekey), 'messages': Message.objects.filter(room = Room.objects.get(name = namekey))})
+        return render(request, "room.html", {'rooms': Room.objects.get(name = namekey), 'messages': Message.objects.filter(room = Room.objects.get(name = namekey)), 'participants' : Room.objects.get(name = namekey).participants.all()})
 
 class MessageCreate(LoginRequiredMixin, View):
     login_url = 'blog:UserLogin'
@@ -44,7 +44,8 @@ class MessageCreate(LoginRequiredMixin, View):
         
         form = MsgForm(request.POST)
         if form.is_valid():
-            Message.objects.create(**form.cleaned_data, room=Room.objects.get(name = namekey), user = User.objects.get(username = request.user.username))    
+            Message.objects.create(**form.cleaned_data, room=Room.objects.get(name = namekey), user = User.objects.get(username = request.user.username))
+            Room.objects.get(name = namekey).participants.add(User.objects.get(username = request.user.username))    
         return redirect("blog:room-env", namekey)
 
 class MessageUpdate(View):
@@ -72,6 +73,8 @@ class DeleteRoom(LoginRequiredMixin, View): #The restrictions of log in are done
         Room.objects.get(name = pk).delete()
         return redirect('blog:home') 
 
+
+#USER SETTINGS FIELD
 class UserLogin(View):
      
     def get(self, request, *args, **kwargs):
@@ -150,7 +153,6 @@ def Userlogout(request, *args, **kwargs):
     logout(request)
     return redirect("blog:home")
 
-#TODO Add an edit - delete button on messages first do it in admin which is goin to be easier
-#TODO Add the prticipants
-#TODO Add the time of the upload
+
 #TODO Use flash messages to display errors
+#TODO add answers to the project
