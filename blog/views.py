@@ -33,7 +33,7 @@ class CreateRoom(LoginRequiredMixin ,View):
 class RoomField(View):
     
     def get(self, request, namekey=None, *args, **kwargs):
-        return render(request, "room.html", {'rooms': Room.objects.get(name = namekey), 'messages': Message.objects.filter(room = Room.objects.get(name = namekey)), 'participants' : Room.objects.get(name = namekey).participants.all()})
+        return render(request, "room.html", {'answers': Answers.objects.all(),'rooms': Room.objects.get(name = namekey), 'messages': Message.objects.filter(room = Room.objects.get(name = namekey)), 'participants' : Room.objects.get(name = namekey).participants.all()})
 
 class MessageCreate(LoginRequiredMixin, View):
     login_url = 'blog:UserLogin'

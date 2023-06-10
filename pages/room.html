@@ -41,17 +41,34 @@
   <div class="message-container">
     <p>
       {% if request.user == message.user %}
-
+      
       @{{ message.user }} - {{ message.msg }}
-          
+       <br>answers:
+            {% for ans in answers %}  
+            {% if ans.msg.msg == message.msg %}
+            <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+            {{ans.answer}}
+            {% endif %}
+            {% endfor %}
+           <p></p>
       <a href="{% url 'blog:EditMessage' rooms.name message.id %}">Edit</a>
       <a href="{% url 'blog:DeleteMessage' message.room.name message.id %}">Delete</a>
       <p><a href="{% url 'blog:AnswerToMessage' message.room.name message.id %}">Answer</a></p>
       
       {% else %}
-      
-      @{{ message.user }} - {{ message.msg }}
     
+      @{{ message.user }} - {{ message.msg }}
+      <br>answers:
+      {% for ans in answers %}  
+      {% if ans.msg.msg == message.msg %}
+      <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      {{ans.answer}}
+      {% endif %}
+      {% endfor %}
+     <p></p>
+
       <p><a href="{% url 'blog:AnswerToMessage' message.room.name message.id %}">Answer</a></p>
     
       {% endif %}
