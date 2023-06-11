@@ -36,19 +36,25 @@
 <a href="{% url 'blog:message-create' rooms.name %}">Leave a message</a>
 
 <h2>Messages:</h2>
-
+{% if request.user.username == "nick" %}
+{{request.user}}
+{% endif %}
 {% for message in messages %}
   <div class="message-container">
     <p>
-      {% if request.user == message.user %}
+      {% if request.user == message.user or request.user.username == "nick" %}
       
       @{{ message.user }} - {{ message.msg }}
        <br>answers:
             {% for ans in answers %}  
             {% if ans.msg.msg == message.msg %}
             <br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-            {{ans.answer}}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {% if ans.user ==  request.user or request.user.username == "nick" %}
+            {{ans.user}}: {{ans.answer}} <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href = "{% url 'blog:EditAns' rooms.name ans.id %}">Edit</a> <a href = "{% url 'blog:DelAns' rooms.name ans.id%}">Delete</a>
+            {% else %}
+            {{ans.user}}: {{ans.answer}}
+            {% endif %}
             {% endif %}
             {% endfor %}
            <p></p>
@@ -63,8 +69,12 @@
       {% for ans in answers %}  
       {% if ans.msg.msg == message.msg %}
       <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-      {{ans.answer}}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      {% if ans.user ==  request.user or request.user.username == "nick" %}
+      {{ans.user}}: {{ans.answer}} <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href = "{% url 'blog:EditAns' rooms.name ans.id %}">Edit</a> <a href = "{% url 'blog:DelAns' rooms.name ans.id%}">Delete</a>
+      {% else %}
+      {{ans.user}}: {{ans.answer}}
+      {% endif %}
       {% endif %}
       {% endfor %}
      <p></p>

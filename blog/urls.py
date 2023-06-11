@@ -16,6 +16,8 @@ urlpatterns= [
     path('RegisterUser/', views.RegisterUser.as_view(), name = "SignUp"),
     path('ChangePassword/', views.ChangePassword.as_view(), name = "ChangePassword"),
     path('DeleteMessage/<str:namekey>/<str:msgid>', views.DeleteMessage.as_view(), name = "DeleteMessage"),
-    path("room/<str:namekey>/EditMessage/<int:msgid>", views.MessageUpdate.as_view(), name = "EditMessage")
+    path("room/<str:namekey>/EditMessage/<int:msgid>", views.MessageUpdate.as_view(), name = "EditMessage"),
+    path("room/<str:roomkey>/answer/<int:anskey>", answer_views.DeleteAnswer.as_view(), name = "DelAns"),
+    path("room/<str:roomkey>/ansedit/<int:anskey>", answer_views.EditAnswer.as_view(), name= "EditAns")
 
 ]

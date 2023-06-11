@@ -13,6 +13,12 @@ class MsgForm(forms.ModelForm):
         model = Message
         fields = ['msg']
 
+class AnsForm(forms.ModelForm):
+    class Meta:
+        model = Answers
+        fields = ['answer']
+
+
 class UserLoginForm(forms.Form):
     username = forms.CharField(label='Useranme')
     password = forms.CharField(label = 'Password', widget=forms.PasswordInput)
