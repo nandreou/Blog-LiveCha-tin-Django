@@ -59,6 +59,16 @@ class MessageUpdate(View):
         if form.is_valid():
             form.save()
         return redirect("blog:room-env", namekey)
+    
+class DeleteMessage(View):
+     
+    def get(self, request, namekey = None, msgid = None):                
+        return render(request, "delete-msg.html", {'room': Room.objects.get(name = namekey), 'msg': Message.objects.get(id = msgid)})
+
+    def post(self, request, namekey=None, msgid = None):
+        Message.objects.get(id = msgid).delete()
+        return redirect('blog:room-env', namekey)
+    
 
 class DeleteRoom(LoginRequiredMixin, View): #The restrictions of log in are done with LoginRequiredMixin in vies. In functional is @login_required
     login_url = 'blog:UserLogin'
@@ -135,19 +145,6 @@ class ChangePassword(LoginRequiredMixin, View): #note there is no need for so mu
         logout(request)
         return redirect("blog:home")
 
-
-class DeleteMessage(View):
-     
-    def get(self, request, namekey = None, msgid = None):
-        print(namekey, msgid)
-        return render(request, "delete-msg.html", {'room': Room.objects.get(name = namekey), 'msg': Message.objects.get(id = msgid)})
-
-    def post(self, request, namekey=None, msgid = None):
-        Message.objects.get(id = msgid).delete()
-        return redirect('blog:room-env', namekey)
-    
-    
-
 @login_required(login_url="blog:UserLogin")
 def Userlogout(request, *args, **kwargs):
     logout(request)
@@ -155,4 +152,3 @@ def Userlogout(request, *args, **kwargs):
 
 
 #TODO Use flash messages to display errors
-#TODO add answers to the project
