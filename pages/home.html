@@ -78,15 +78,16 @@
             {% endif %}
         </div>
         <hr>
+        {% block cont %}
         <div class = "right-section">
             {% include 'recent-activity.html' %}
             </div>
         <div class="room-list">
             <h2>Rooms</h2>
-            {% block cont %}
+   
                 {% for room in rooms %}
                     <div class="room-list-item">
-                        User's Room: {{ room.user }} - <a href="{% url 'blog:room-env' room.name %}">{{ room.name }}</a> {{room.topic.name}}
+                        User's Room:  <a href="{% url 'blog:profview' room.user.username %}">{{ room.user }}</a>  - <a href="{% url 'blog:room-env' room.name %}">{{ room.name }}</a> {{room.topic.name}}
                     </div>
                     <hr>
                 {% endfor %}

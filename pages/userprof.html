@@ -1,0 +1,25 @@
+{% extends 'home.html' %}
+
+{% block cont %}
+<h1>User profile:</h1>
+
+<div>
+<h3>Rooms Owned:</h3>
+{% for room in rooms %}
+<p>
+<a href= "{% url 'blog:room-env' room.name %}" >{{room.name}}</a>
+</p>
+{% endfor %}
+
+<h3>Participant in rooms:</h3>
+{% for part in participate %}
+Topic: {{part.1}} -
+{% url 'blog:room-env' part.0 as room_env_url %}
+@{{part.2}}: <a href="{{ room_env_url }}">{{ part.0 }}</a> 
+
+
+<br><br>
+{% endfor %}
+</div>
+
+{% endblock %}

@@ -27,4 +27,3 @@ class Answers(models.Model):
     user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
     answer = models.TextField()
 
-#TODO seperate the participants fields
