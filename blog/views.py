@@ -9,13 +9,20 @@ from django.contrib.auth.decorators import login_required
 import django.http
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.db.models import Q
+from datetime import datetime, date, timedelta
 
 # Create your views here.
 
 class HomePage(View):
     
     def get(self, request, *args, **kargs):
-        return render(request, "home.html", {'rooms': Room.objects.all()})
+
+        print(f"THE DATE IS :{date.today()}  {Room.objects.filter()[0].updated}")
+        try:
+            return render(request, "home.html", {'recentact': [x for x in Message.objects.filter(Q(user__username__icontains = request.GET['q']) | Q(room__name__icontains = request.GET['q']) | Q(room__topic__name__icontains = request.GET['q'])) if date.today() - x.updated < timedelta(days = 3)], 'rooms': Room.objects.filter(Q(user__username__icontains = request.GET['q']) | Q(topic__name__icontains = request.GET['q']) | Q(name__icontains = request.GET['q']))})
+        except:
+            return render(request, "home.html", {'recentact': [x for x in Message.objects.all() if date.today() - x.updated < timedelta(days = 3)], 'rooms': Room.objects.all()})
 
 
 class CreateRoom(LoginRequiredMixin ,View):

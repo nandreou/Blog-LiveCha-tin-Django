@@ -1,0 +1,12 @@
+<h2>Recent Activity Last two Days:</h2>
+
+<h3>Messages:</h3>
+{% for recent in recentact %}
+<p>
+<h4>Room: {{recent.room.name}}</h4>
+@{{recent.user}} {{recent.msg}} <p>{{ recent.updated|timesince }} {{ recent.updated|date:"F j, Y" }}</p>
+</p>
+<br>
+{% endfor %}
+
+<hr><br><br>
