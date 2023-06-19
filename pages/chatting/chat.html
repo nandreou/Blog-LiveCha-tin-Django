@@ -1,0 +1,53 @@
+{% extends 'home.html' %}
+
+{% block cont %}
+<style>
+    .msg {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+    }
+  </style>
+
+<h1>Hello!! ths is a new cool chat hope you enjoy it:</h1>
+
+<form id="form", class = "msg">
+    <input type = "text" name="message" id = "message"/>
+</form>
+
+<div id = "msgs">
+
+</div>
+
+<script type ="text/javascript">
+
+    const chatSocket = new WebSocket(`ws://${window.location.host}/ws/chat/`)
+
+    chatSocket.onmessage = function(e){
+        let data = JSON.parse(e.data)
+        console.log('Data:', data)
+        
+        if (data.type === "chat" ){
+            messages = document.getElementById('msgs')
+            messages.insertAdjacentHTML('beforeend', `<div> <p>${data.user}: ${data.msg}</p> 
+                </div>`)
+        }
+    }
+
+    let msg = document.getElementById('message')
+
+    msg.addEventListener('keydown', function(e) {
+        if (e.keyCode === 13){
+        e.preventDefault()
+        chatSocket.send(JSON.stringify({
+            'message': msg.value
+        }))
+        form.reset()
+    }
+    })
+
+
+</script>
+
+{% endblock %}
