@@ -1,0 +1,20 @@
+{% extends 'home.html' %}
+
+{% block cont %}
+
+<h1>Hello!! ths is a new cool chat hope you enjoy it:</h1>
+<h1>Choose a Room to continue or create a <a href = "{% url 'chatting:CreateRoom' %}"> new room</a>: </h1>
+
+{% for room in rooms %}
+
+<p style = "margin-left: 20px;">
+@{{room.chat_user}} <a href = "{% url 'chatting:room' room.chat_name %}"> {{room.chat_name}}</a> {{room.updated}} 
+
+{% if request.user.username == 'nick' or request.user == room.chat_user %}
+<a href = "{% url 'chatting:DeleteRoom' room.chat_name %}"> Delete </a>
+{% endif %}
+</p>
+
+{% endfor %}
+
+{% endblock %}

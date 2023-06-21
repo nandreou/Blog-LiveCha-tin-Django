@@ -19,19 +19,23 @@
 <div id = "msgs">
 
 </div>
+{{roomkey|json_script:"roomkey"}}
 
 <script type ="text/javascript">
 
-    const chatSocket = new WebSocket(`ws://${window.location.host}/ws/chat/`)
-
+    const roomName = JSON.parse(document.getElementById("roomkey").textContent);
+    
+    const chatSocket = new WebSocket('ws://' + window.location.host + '/ws/chat/'+ roomName +'/')
+    
     chatSocket.onmessage = function(e){
         let data = JSON.parse(e.data)
-        console.log('Data:', data)
-        
+
         if (data.type === "chat" ){
             messages = document.getElementById('msgs')
-            messages.insertAdjacentHTML('beforeend', `<div> <p>${data.user}: ${data.msg}</p> 
+            messages.insertAdjacentHTML('beforeend', `<div> <p> ${data.user}: ${data.msg}</p> 
                 </div>`)
+        }else if (data.type === "Disconnect" || data.type === "Connect"){
+        document.getElementById('msgs').insertAdjacentHTML('beforeend', `<p> ${data.msg} </p>`)
         }
     }
 
@@ -51,3 +55,4 @@
 </script>
 
 {% endblock %}
+
